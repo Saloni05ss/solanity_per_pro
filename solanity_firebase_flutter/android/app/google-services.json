@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "287844451372",
+    "project_id": "solanity-d0829",
+    "storage_bucket": "solanity-d0829.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287844451372:android:a0c3cafcbcae3dc94fbd89",
+        "android_client_info": {
+          "package_name": "com.example.solanity_firebase_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2bw9lvtMwiN4Z1RYnqPngQ8pa8S0nmcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
