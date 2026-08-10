@@ -204,8 +204,18 @@ export default function Profile() {
           <h1 className="text-2xl font-black text-gray-900 dark:text-gray-100 tracking-tight">{profile.username}</h1>
           <div className="mt-2.5 flex justify-center sm:justify-start gap-5 text-sm text-gray-500 dark:text-gray-400">
             <span><strong className="text-gray-900 dark:text-gray-100 font-bold">{profile.postsCount}</strong> posts</span>
-            <span><strong className="text-gray-900 dark:text-gray-100 font-bold">{profile.followersCount}</strong> followers</span>
-            <span><strong className="text-gray-900 dark:text-gray-100 font-bold">{profile.followingCount}</strong> following</span>
+            <Link
+              to={`/profile/${uid}/followers`}
+              className="transition-colors hover:text-brand-600 dark:hover:text-brand-400"
+            >
+              <strong className="text-gray-900 dark:text-gray-100 font-bold">{profile.followersCount}</strong> followers
+            </Link>
+            <Link
+              to={`/profile/${uid}/following`}
+              className="transition-colors hover:text-brand-600 dark:hover:text-brand-400"
+            >
+              <strong className="text-gray-900 dark:text-gray-100 font-bold">{profile.followingCount}</strong> following
+            </Link>
           </div>
         </div>
 

@@ -13,3 +13,13 @@ export const uploadUserAvatar = asyncHandler(async (req: Request, res: Response)
   const useravatarurl = await UserService.uploadAvatar(req.user!._id.toString(), req.file);
   res.json({ success: true, useravatarurl });
 });
+
+export const searchUsers = asyncHandler(async (req: Request, res: Response) => {
+  const { q } = req.query;
+  const queryStr = typeof q === 'string' ? q.trim() : '';
+  if (!queryStr) {
+    return res.json({ success: true, users: [] });
+  }
+  const users = await UserService.searchUsers(queryStr);
+  res.json({ success: true, users });
+});

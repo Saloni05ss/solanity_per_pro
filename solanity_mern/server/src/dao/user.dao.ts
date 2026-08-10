@@ -22,4 +22,10 @@ export const UserDao = {
   incrementCounts(id: string | Types.ObjectId, fields: Partial<Record<'postsCount' | 'followersCount' | 'followingCount', number>>, session?: ClientSession) {
     return User.updateOne({ _id: id }, { $inc: fields }, { session });
   },
+
+  search(query: string) {
+    return User.find({ username: { $regex: query, $options: 'i' } })
+      .select('username useravatarurl')
+      .limit(10);
+  },
 };

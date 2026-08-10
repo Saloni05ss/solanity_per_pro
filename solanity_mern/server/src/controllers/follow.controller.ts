@@ -18,11 +18,11 @@ export const isFollowing = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getFollowers = asyncHandler(async (req: Request, res: Response) => {
-  const users = await FollowService.getFollowers(req.params.userId);
+  const users = await FollowService.getFollowers(req.params.userId, req.user?._id?.toString());
   res.json({ success: true, users });
 });
 
 export const getFollowing = asyncHandler(async (req: Request, res: Response) => {
-  const users = await FollowService.getFollowing(req.params.userId);
+  const users = await FollowService.getFollowing(req.params.userId, req.user?._id?.toString());
   res.json({ success: true, users });
 });

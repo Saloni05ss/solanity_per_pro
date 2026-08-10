@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { FollowDao } from '../dao/follow.dao';
 import { UserDao } from '../dao/user.dao';
 import { ApiError } from '../utils/ApiError';
+import { Follow } from '../models/follow.model';
 
 export const FollowService = {
   /** Mirrors follow.service.dart's batch write: create follow doc + bump both counters atomically. */
@@ -39,13 +40,59 @@ export const FollowService = {
     return !!(await FollowDao.exists(followerId, followingId));
   },
 
-  async getFollowers(userId: string) {
+  async getFollowers(userId: string, viewerId?: string) {
     const follows = await FollowDao.findFollowers(userId);
-    return follows.map((f) => f.followerId);
+    const users = follows.map((f) => f.followerId).filter(Boolean);
+
+    if (!viewerId) {
+      return users.map((u: any) => ({
+        _id: u._id,
+        username: u.username,
+        useravatarurl: u.useravatarurl,
+        isFollowing: false,
+      }));
+    }
+
+    const userIds = users.map((u: any) => u._id);
+    const viewerFollows = await Follow.find({
+      followerId: viewerId,
+      followingId: { $in: userIds }
+    }).distinct('followingId');
+    const followedSet = new Set(viewerFollows.map((id) => id.toString()));
+
+    return users.map((u: any) => ({
+      _id: u._id,
+      username: u.username,
+      useravatarurl: u.useravatarurl,
+      isFollowing: followedSet.has(u._id.toString()),
+    }));
   },
 
-  async getFollowing(userId: string) {
+  async getFollowing(userId: string, viewerId?: string) {
     const follows = await FollowDao.findFollowing(userId);
-    return follows.map((f) => f.followingId);
+    const users = follows.map((f) => f.followingId).filter(Boolean);
+
+    if (!viewerId) {
+      return users.map((u: any) => ({
+        _id: u._id,
+        username: u.username,
+        useravatarurl: u.useravatarurl,
+        isFollowing: false,
+      }));
+    }
+
+    const userIds = users.map((u: any) => u._id);
+    const viewerFollows = await Follow.find({
+      followerId: viewerId,
+      followingId: { $in: userIds }
+    }).distinct('followingId');
+    const followedSet = new Set(viewerFollows.map((id) => id.toString()));
+
+    return users.map((u: any) => ({
+      _id: u._id,
+      username: u.username,
+      useravatarurl: u.useravatarurl,
+      isFollowing: followedSet.has(u._id.toString()),
+    }));
   },
 };

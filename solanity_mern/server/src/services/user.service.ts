@@ -21,4 +21,13 @@ export const UserService = {
     const user = await UserDao.updateById(userId, { useravatarurl: url });
     return user?.useravatarurl ?? null;
   },
+
+  async searchUsers(query: string) {
+    const users = await UserDao.search(query);
+    return users.map((user) => ({
+      uid: user._id.toString(),
+      username: user.username,
+      useravatarurl: user.useravatarurl ?? null,
+    }));
+  },
 };
